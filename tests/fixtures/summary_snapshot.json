@@ -1,0 +1,56 @@
+{
+  "basicData": {
+    "brand": "BMW_I",
+    "chargingModes": [
+      "AC_LOW",
+      "DC"
+    ],
+    "hvsMaxEnergyAbsolute": null,
+    "modelName": "i3 94",
+    "propulsionType": "EL",
+    "series": "I",
+    "vin": null
+  },
+  "candidateSensors": {
+    "batterySocFromTelematics": {
+      "descriptor": "vehicle.drivetrain.batteryManagement.header",
+      "timestamp": "2026-04-06T06:52:34.000Z",
+      "unit": "%",
+      "value": "100"
+    },
+    "chargingModeSetting": null,
+    "latestChargingHistoryDisplayedSoc": 95,
+    "latestChargingHistoryDisplayedStartSoc": 78,
+    "latestChargingHistoryMileage": 107472,
+    "odometerFromTelematics": {
+      "descriptor": "vehicle.vehicle.travelledDistance",
+      "timestamp": "2026-04-06T06:52:34.000Z",
+      "unit": "km",
+      "value": "107473"
+    },
+    "remainingRangeFromTelematics": {
+      "descriptor": "vehicle.drivetrain.electricEngine.remainingElectricRange",
+      "timestamp": "2026-04-06T07:02:50.086Z",
+      "unit": "km",
+      "value": "175"
+    }
+  },
+  "latestChargingSession": {
+    "displayedSoc": 95,
+    "displayedStartSoc": 78,
+    "isPreconditioningActivated": false,
+    "mileage": 107472,
+    "mileageUnits": "KM",
+    "startTime": 1775392192,
+    "totalChargingDurationSec": 1814
+  },
+  "latestLocationBasedChargingSettings": null,
+  "mappings": [
+    {
+      "mappedSince": "2021-11-19T12:20:36.409Z",
+      "mappingType": "PRIMARY",
+      "vin": "WBY7Z210107B30926"
+    }
+  ],
+  "vin": "WBY7Z210107B30926"
+}

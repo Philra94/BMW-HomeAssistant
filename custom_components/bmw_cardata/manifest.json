@@ -1,0 +1,17 @@
+{
+  "domain": "bmw_cardata",
+  "name": "BMW CarData",
+  "codeowners": [
+    "@philipprau"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/philipprau/BMW-HomeAssistant",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/philipprau/BMW-HomeAssistant/issues",
+  "loggers": [
+    "custom_components.bmw_cardata"
+  ],
+  "requirements": [],
+  "version": "0.1.0"
+}

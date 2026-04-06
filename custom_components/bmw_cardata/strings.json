@@ -1,0 +1,41 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "BMW CarData",
+        "description": "Enter the BMW CarData client ID you created in the BMW portal. This integration uses the official read-only BMW CarData API.",
+        "data": {
+          "client_id": "BMW CarData client ID",
+          "enable_location": "Enable location tracking entity"
+        }
+      },
+      "authorize": {
+        "title": "Approve BMW Device",
+        "description": "Open {verification_url} in your browser, enter the code {user_code}, approve the BMW device, then return here and submit again."
+      },
+      "select_vehicle": {
+        "title": "Select Vehicle",
+        "description": "Choose which mapped BMW vehicle this entry should represent.",
+        "data": {
+          "selected_vin": "Vehicle"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reconnect BMW CarData",
+        "description": "BMW needs you to complete the device authorization flow again for this integration entry."
+      }
+    },
+    "error": {
+      "authorization_pending": "Approve the BMW device code in the browser, then submit again.",
+      "cannot_connect": "Could not reach the BMW CarData API.",
+      "invalid_auth": "BMW rejected the credentials or device authorization.",
+      "rate_limited": "BMW rate limit reached. Try again later.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This BMW vehicle is already configured.",
+      "cannot_connect": "Could not complete the BMW setup flow.",
+      "reauth_successful": "BMW CarData has been reconnected."
+    }
+  }
+}

@@ -1,0 +1,9 @@
+refresh_vehicle_data:
+  name: Refresh vehicle data
+  description: Refresh BMW CarData coordinators for one or all configured vehicles.
+  fields:
+    vin:
+      name: VIN
+      description: Optional VIN to refresh. Omit to refresh all configured BMW CarData entries.
+      selector:
+        text:

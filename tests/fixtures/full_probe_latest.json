@@ -1,0 +1,159 @@
+{
+  "container": {
+    "containerId": "L00I023M591OC",
+    "name": "ha_ev_full_probe",
+    "purpose": "Broad BMW i3 BEV streamable descriptor probe",
+    "state": "ACTIVE"
+  },
+  "descriptorCountRequested": 234,
+  "returnedCount": 233,
+  "telematicData": {
+    "telematicData": {
+      "vehicle.body.chargingPort.status": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "DISCONNECTED"
+      },
+      "vehicle.body.hood.isOpen": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "CLOSED"
+      },
+      "vehicle.body.trunk.isOpen": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "CLOSED"
+      },
+      "vehicle.cabin.door.row1.driver.isOpen": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "CLOSED"
+      },
+      "vehicle.cabin.door.row1.passenger.isOpen": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "CLOSED"
+      },
+      "vehicle.cabin.door.row2.driver.isOpen": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "CLOSED"
+      },
+      "vehicle.cabin.door.row2.passenger.isOpen": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "CLOSED"
+      },
+      "vehicle.cabin.infotainment.navigation.currentLocation.latitude": {
+        "timestamp": null,
+        "unit": "degrees",
+        "value": null
+      },
+      "vehicle.cabin.infotainment.navigation.currentLocation.longitude": {
+        "timestamp": null,
+        "unit": "degrees",
+        "value": null
+      },
+      "vehicle.drivetrain.batteryManagement.batterySizeMax": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": "kWh",
+        "value": "33.2"
+      },
+      "vehicle.drivetrain.batteryManagement.header": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": "%",
+        "value": "100"
+      },
+      "vehicle.drivetrain.batteryManagement.maxEnergy": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": "kWh",
+        "value": "26.94"
+      },
+      "vehicle.drivetrain.electricEngine.charging.connectorStatus": {
+        "timestamp": "2026-04-06T07:02:50.086Z",
+        "unit": null,
+        "value": "DISCONNECTED"
+      },
+      "vehicle.drivetrain.electricEngine.charging.hvStatus": {
+        "timestamp": "2026-04-06T07:02:50.086Z",
+        "unit": null,
+        "value": "INVALID"
+      },
+      "vehicle.drivetrain.electricEngine.charging.lastChargingReason": {
+        "timestamp": "2026-04-06T07:02:50.086Z",
+        "unit": null,
+        "value": "CHARGING_GOAL_REACHED"
+      },
+      "vehicle.drivetrain.electricEngine.charging.lastChargingResult": {
+        "timestamp": "2026-04-06T07:02:50.086Z",
+        "unit": null,
+        "value": "SUCCESS"
+      },
+      "vehicle.drivetrain.electricEngine.charging.status": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "NOCHARGING"
+      },
+      "vehicle.drivetrain.electricEngine.charging.timeRemaining": {
+        "timestamp": null,
+        "unit": "min",
+        "value": null
+      },
+      "vehicle.drivetrain.electricEngine.kombiRemainingElectricRange": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": null,
+        "value": "175"
+      },
+      "vehicle.drivetrain.electricEngine.remainingElectricRange": {
+        "timestamp": "2026-04-06T07:02:50.086Z",
+        "unit": "km",
+        "value": "175"
+      },
+      "vehicle.powertrain.electric.battery.stateOfCharge.target": {
+        "timestamp": "2026-02-10T11:47:26.000Z",
+        "unit": "%",
+        "value": "100"
+      },
+      "vehicle.status.conditionBasedServicesCount": {
+        "timestamp": "2026-04-02T06:42:53.397Z",
+        "unit": null,
+        "value": "4"
+      },
+      "vehicle.status.serviceDistance.yellow": {
+        "timestamp": "2026-04-02T06:42:53.397Z",
+        "unit": null,
+        "value": "2000"
+      },
+      "vehicle.status.serviceTime.hUandAuServiceYellow": {
+        "timestamp": "2026-04-02T06:42:53.397Z",
+        "unit": "months",
+        "value": "4"
+      },
+      "vehicle.status.serviceTime.yellow": {
+        "timestamp": "2026-04-02T06:42:53.397Z",
+        "unit": "weeks",
+        "value": "4"
+      },
+      "vehicle.vehicle.averageWeeklyDistanceLongTerm": {
+        "timestamp": "2026-04-02T06:42:53.397Z",
+        "unit": null,
+        "value": "390"
+      },
+      "vehicle.vehicle.averageWeeklyDistanceShortTerm": {
+        "timestamp": "2026-04-02T06:42:53.397Z",
+        "unit": null,
+        "value": "390"
+      },
+      "vehicle.vehicle.avgAuxPower": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": "kW",
+        "value": "0.66"
+      },
+      "vehicle.vehicle.travelledDistance": {
+        "timestamp": "2026-04-06T06:52:34.000Z",
+        "unit": "km",
+        "value": "107473"
+      }
+    }
+  }
+}
