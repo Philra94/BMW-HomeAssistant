@@ -13,6 +13,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 CONF_CLIENT_ID = "client_id"
+CONF_VIN = "vin"
 CONF_ENABLE_LOCATION = "enable_location"
 CONF_SELECTED_VIN = "selected_vin"
 CONF_CONTAINER_ID = "container_id"
