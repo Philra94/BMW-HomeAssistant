@@ -23,11 +23,11 @@ def _binary_sensor(key: str):
 def test_sensor_mapping_uses_fixture_values(full_probe_payload: dict) -> None:
     telematics = full_probe_payload["telematicData"]
 
-    assert _sensor("current_soc").value_fn(telematics) == 100
-    assert _sensor("remaining_range").value_fn(telematics) == 175.0
-    assert _sensor("odometer").value_fn(telematics) == 107473
+    assert _sensor("current_soc").value_fn(telematics) == 80
+    assert _sensor("remaining_range").value_fn(telematics) == 240.0
+    assert _sensor("odometer").value_fn(telematics) == 12345
     assert _sensor("charging_status").value_fn(telematics) == "NOCHARGING"
-    assert _sensor("target_soc").value_fn(telematics) == 100
+    assert _sensor("target_soc").value_fn(telematics) == 90
 
 
 def test_binary_sensor_mapping_uses_fixture_values(full_probe_payload: dict) -> None:

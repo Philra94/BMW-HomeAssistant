@@ -165,20 +165,18 @@ Implications:
 - Some charging-related fields are only meaningful while charging is active
 - BMW-side delays can make timestamps look older than expected
 
-## Current i3 Findings
+## Privacy
 
-Validated against a BMW i3 during local probe work:
+This repository is intended to stay public. Example payloads and tests should
+use sanitized fixture data only.
 
-- `vehicle.drivetrain.batteryManagement.header` -> current SoC
-- `vehicle.drivetrain.electricEngine.kombiRemainingElectricRange` -> range
-- `vehicle.drivetrain.electricEngine.remainingElectricRange` -> range
-- `vehicle.vehicle.travelledDistance` -> odometer
-- `vehicle.drivetrain.electricEngine.charging.status` -> charging state
-- `vehicle.drivetrain.electricEngine.charging.hvStatus` -> high-voltage state
-- `vehicle.powertrain.electric.battery.stateOfCharge.target` -> target SoC
+Do not commit:
 
-Location descriptors are valid, but may still return `null` depending on what
-BMW currently publishes for the vehicle.
+- BMW `Client ID` values for real apps
+- access tokens or refresh tokens
+- real VINs
+- location coordinates or location history
+- other account-specific or vehicle-identifying data
 
 ## Troubleshooting
 
@@ -207,9 +205,3 @@ Examples:
 - location can be `null`
 - some charging values are only available during or shortly after charging
 - target SoC can update much less frequently than current SoC
-
-## Development Notes
-
-This repository also contains a local probe under `.local/` that was used to
-validate the BMW CarData flow and identify working descriptors before building
-the Home Assistant integration.

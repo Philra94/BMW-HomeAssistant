@@ -48,19 +48,19 @@ async def test_user_flow_requests_device_code_and_creates_entry(hass, monkeypatc
         )
 
     async def mock_get_vehicle_mappings(self):
-        return [{"vin": "WBYTESTVIN1234567", "mappingType": "PRIMARY"}]
+        return [{"vin": "TESTVIN1234567890", "mappingType": "PRIMARY"}]
 
     async def mock_bootstrap(self, **kwargs):
         return BMWVehicleContext(
             client_id="client-id",
-            vin="WBYTESTVIN1234567",
+            vin="TESTVIN1234567890",
             container_id="C123",
             container_name="ha_ev_current",
             enable_location=False,
         )
 
     async def mock_basic_data(self, vin):
-        return {"modelName": "i3 94"}
+        return {"modelName": "BMW Vehicle"}
 
     monkeypatch.setattr(
         "custom_components.bmw_cardata.auth.BMWAuthenticator.async_request_device_code",
@@ -101,7 +101,7 @@ async def test_user_flow_requests_device_code_and_creates_entry(hass, monkeypatc
 
     result = await hass.config_entries.flow.async_configure(result["flow_id"], {})
     assert result["type"] == "create_entry"
-    assert result["title"] == "i3 94"
-    assert result["data"][CONF_SELECTED_VIN] == "WBYTESTVIN1234567"
+    assert result["title"] == "BMW Vehicle"
+    assert result["data"][CONF_SELECTED_VIN] == "TESTVIN1234567890"
     assert result["data"][CONF_CONTAINER_ID] == "C123"
     assert result["data"][CONF_CONTAINER_NAME] == "ha_ev_current"

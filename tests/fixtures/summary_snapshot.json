@@ -1,56 +1,56 @@
 {
   "basicData": {
-    "brand": "BMW_I",
+    "brand": "BMW",
     "chargingModes": [
       "AC_LOW",
       "DC"
     ],
     "hvsMaxEnergyAbsolute": null,
-    "modelName": "i3 94",
+    "modelName": "BMW Vehicle",
     "propulsionType": "EL",
-    "series": "I",
+    "series": "GENERIC",
     "vin": null
   },
   "candidateSensors": {
     "batterySocFromTelematics": {
       "descriptor": "vehicle.drivetrain.batteryManagement.header",
-      "timestamp": "2026-04-06T06:52:34.000Z",
+      "timestamp": "2026-01-01T12:00:00.000Z",
       "unit": "%",
-      "value": "100"
+      "value": "80"
     },
     "chargingModeSetting": null,
-    "latestChargingHistoryDisplayedSoc": 95,
-    "latestChargingHistoryDisplayedStartSoc": 78,
-    "latestChargingHistoryMileage": 107472,
+    "latestChargingHistoryDisplayedSoc": 82,
+    "latestChargingHistoryDisplayedStartSoc": 41,
+    "latestChargingHistoryMileage": 12344,
     "odometerFromTelematics": {
       "descriptor": "vehicle.vehicle.travelledDistance",
-      "timestamp": "2026-04-06T06:52:34.000Z",
+      "timestamp": "2026-01-01T12:00:00.000Z",
       "unit": "km",
-      "value": "107473"
+      "value": "12345"
     },
     "remainingRangeFromTelematics": {
       "descriptor": "vehicle.drivetrain.electricEngine.remainingElectricRange",
-      "timestamp": "2026-04-06T07:02:50.086Z",
+      "timestamp": "2026-01-01T12:05:00.000Z",
       "unit": "km",
-      "value": "175"
+      "value": "240"
     }
   },
   "latestChargingSession": {
-    "displayedSoc": 95,
-    "displayedStartSoc": 78,
+    "displayedSoc": 82,
+    "displayedStartSoc": 41,
     "isPreconditioningActivated": false,
-    "mileage": 107472,
+    "mileage": 12344,
     "mileageUnits": "KM",
-    "startTime": 1775392192,
-    "totalChargingDurationSec": 1814
+    "startTime": 1767268800,
+    "totalChargingDurationSec": 3600
   },
   "latestLocationBasedChargingSettings": null,
   "mappings": [
     {
-      "mappedSince": "2021-11-19T12:20:36.409Z",
+      "mappedSince": "2025-01-01T12:00:00.000Z",
       "mappingType": "PRIMARY",
-      "vin": "WBY7Z210107B30926"
+      "vin": "TESTVIN1234567890"
     }
   ],
-  "vin": "WBY7Z210107B30926"
+  "vin": "TESTVIN1234567890"
 }

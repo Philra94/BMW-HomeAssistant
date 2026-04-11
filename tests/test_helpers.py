@@ -21,7 +21,7 @@ def test_current_soc_can_be_read_from_telematics(full_probe_payload: dict) -> No
             full_probe_payload["telematicData"],
             "vehicle.drivetrain.batteryManagement.header",
         )
-        == "100"
+        == "80"
     )
 
 
@@ -30,5 +30,5 @@ def test_latest_charging_session_values(summary_snapshot: dict) -> None:
         {"data": [summary_snapshot["latestChargingSession"]]}
     )
     assert session is not None
-    assert session["displayedSoc"] == 95
-    assert session["displayedStartSoc"] == 78
+    assert session["displayedSoc"] == 82
+    assert session["displayedStartSoc"] == 41

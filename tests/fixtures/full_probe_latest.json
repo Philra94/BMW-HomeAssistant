@@ -1,8 +1,8 @@
 {
   "container": {
-    "containerId": "L00I023M591OC",
-    "name": "ha_ev_full_probe",
-    "purpose": "Broad BMW i3 BEV streamable descriptor probe",
+    "containerId": "TESTCONTAINER001",
+    "name": "ha_bmw_cardata_fixture",
+    "purpose": "Generic BMW CarData test fixture",
     "state": "ACTIVE"
   },
   "descriptorCountRequested": 234,
@@ -55,19 +55,19 @@
         "value": null
       },
       "vehicle.drivetrain.batteryManagement.batterySizeMax": {
-        "timestamp": "2026-04-06T06:52:34.000Z",
+        "timestamp": "2026-01-01T12:00:00.000Z",
         "unit": "kWh",
-        "value": "33.2"
+        "value": "70.0"
       },
       "vehicle.drivetrain.batteryManagement.header": {
-        "timestamp": "2026-04-06T06:52:34.000Z",
+        "timestamp": "2026-01-01T12:00:00.000Z",
         "unit": "%",
-        "value": "100"
+        "value": "80"
       },
       "vehicle.drivetrain.batteryManagement.maxEnergy": {
-        "timestamp": "2026-04-06T06:52:34.000Z",
+        "timestamp": "2026-01-01T12:00:00.000Z",
         "unit": "kWh",
-        "value": "26.94"
+        "value": "64.5"
       },
       "vehicle.drivetrain.electricEngine.charging.connectorStatus": {
         "timestamp": "2026-04-06T07:02:50.086Z",
@@ -100,19 +100,19 @@
         "value": null
       },
       "vehicle.drivetrain.electricEngine.kombiRemainingElectricRange": {
-        "timestamp": "2026-04-06T06:52:34.000Z",
+        "timestamp": "2026-01-01T12:00:00.000Z",
         "unit": null,
-        "value": "175"
+        "value": "240"
       },
       "vehicle.drivetrain.electricEngine.remainingElectricRange": {
-        "timestamp": "2026-04-06T07:02:50.086Z",
+        "timestamp": "2026-01-01T12:05:00.000Z",
         "unit": "km",
-        "value": "175"
+        "value": "240"
       },
       "vehicle.powertrain.electric.battery.stateOfCharge.target": {
-        "timestamp": "2026-02-10T11:47:26.000Z",
+        "timestamp": "2026-01-01T11:00:00.000Z",
         "unit": "%",
-        "value": "100"
+        "value": "90"
       },
       "vehicle.status.conditionBasedServicesCount": {
         "timestamp": "2026-04-02T06:42:53.397Z",
@@ -135,24 +135,24 @@
         "value": "4"
       },
       "vehicle.vehicle.averageWeeklyDistanceLongTerm": {
-        "timestamp": "2026-04-02T06:42:53.397Z",
+        "timestamp": "2026-01-01T10:00:00.000Z",
         "unit": null,
-        "value": "390"
+        "value": "250"
       },
       "vehicle.vehicle.averageWeeklyDistanceShortTerm": {
-        "timestamp": "2026-04-02T06:42:53.397Z",
+        "timestamp": "2026-01-01T10:00:00.000Z",
         "unit": null,
-        "value": "390"
+        "value": "250"
       },
       "vehicle.vehicle.avgAuxPower": {
-        "timestamp": "2026-04-06T06:52:34.000Z",
+        "timestamp": "2026-01-01T12:00:00.000Z",
         "unit": "kW",
-        "value": "0.66"
+        "value": "0.50"
       },
       "vehicle.vehicle.travelledDistance": {
-        "timestamp": "2026-04-06T06:52:34.000Z",
+        "timestamp": "2026-01-01T12:00:00.000Z",
         "unit": "km",
-        "value": "107473"
+        "value": "12345"
       }
     }
   }
