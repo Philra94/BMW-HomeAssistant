@@ -14,6 +14,7 @@ from .api import BMWCarDataApiClient
 from .auth import BMWAuthenticator
 from .budget import RequestBudgetManager
 from .const import (
+    CONFIG_ENTRY_VERSION,
     CONF_CLIENT_ID,
     CONF_CONTAINER_ID,
     CONF_CONTAINER_NAME,
@@ -138,7 +139,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
 async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    if entry.version > 2:
+    if entry.version > CONFIG_ENTRY_VERSION:
         return False
 
     if entry.version == 1:
@@ -163,7 +164,7 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             entry,
             data=data,
             unique_id=unique_id,
-            version=2,
+            version=CONFIG_ENTRY_VERSION,
         )
 
     return True

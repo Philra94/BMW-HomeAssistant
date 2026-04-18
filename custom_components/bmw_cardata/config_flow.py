@@ -12,6 +12,7 @@ from .api import BMWCarDataApiClient
 from .auth import BMWAuthenticator
 from .budget import RequestBudgetManager
 from .const import (
+    CONFIG_ENTRY_VERSION,
     CONF_CLIENT_ID,
     CONF_CONTAINER_ID,
     CONF_CONTAINER_NAME,
@@ -28,7 +29,7 @@ from .models import BMWDeviceApprovalState, BMWTokenSet, normalize_selected_vins
 
 
 class BMWCarDataConfigFlow(ConfigFlow, domain=DOMAIN):
-    VERSION = 2
+    VERSION = CONFIG_ENTRY_VERSION
 
     def __init__(self) -> None:
         self._client_id: str | None = None
