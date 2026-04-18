@@ -83,9 +83,7 @@ class BMWApiCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
 
 @dataclass(slots=True)
-class BMWCarDataRuntimeData:
-    api: BMWCarDataApiClient
-    budget_manager: RequestBudgetManager
+class BMWVehicleRuntimeData:
     vehicle_context: BMWVehicleContext
     telematics_coordinator: BMWApiCoordinator
     metadata_coordinator: BMWApiCoordinator
@@ -93,13 +91,20 @@ class BMWCarDataRuntimeData:
     settings_coordinator: BMWApiCoordinator
 
 
-async def async_build_runtime_data(
+@dataclass(slots=True)
+class BMWCarDataRuntimeData:
+    api: BMWCarDataApiClient
+    budget_manager: RequestBudgetManager
+    vehicle_runtimes: dict[str, BMWVehicleRuntimeData]
+
+
+async def async_build_vehicle_runtime(
     hass: HomeAssistant,
     *,
     api: BMWCarDataApiClient,
     budget_manager: RequestBudgetManager,
     vehicle_context: BMWVehicleContext,
-) -> BMWCarDataRuntimeData:
+) -> BMWVehicleRuntimeData:
     telematics = BMWApiCoordinator(
         hass,
         api=api,
@@ -144,12 +149,33 @@ async def async_build_runtime_data(
     for coordinator in (telematics, metadata, history, settings):
         await coordinator.async_config_entry_first_refresh()
 
-    return BMWCarDataRuntimeData(
-        api=api,
-        budget_manager=budget_manager,
+    return BMWVehicleRuntimeData(
         vehicle_context=vehicle_context,
         telematics_coordinator=telematics,
         metadata_coordinator=metadata,
         history_coordinator=history,
         settings_coordinator=settings,
+    )
+
+
+async def async_build_runtime_data(
+    hass: HomeAssistant,
+    *,
+    api: BMWCarDataApiClient,
+    budget_manager: RequestBudgetManager,
+    vehicle_contexts: list[BMWVehicleContext],
+) -> BMWCarDataRuntimeData:
+    vehicle_runtimes = {}
+    for vehicle_context in vehicle_contexts:
+        vehicle_runtimes[vehicle_context.vin] = await async_build_vehicle_runtime(
+            hass,
+            api=api,
+            budget_manager=budget_manager,
+            vehicle_context=vehicle_context,
+        )
+
+    return BMWCarDataRuntimeData(
+        api=api,
+        budget_manager=budget_manager,
+        vehicle_runtimes=vehicle_runtimes,
     )

@@ -5,13 +5,13 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .coordinator import BMWApiCoordinator, BMWCarDataRuntimeData
+from .coordinator import BMWApiCoordinator, BMWCarDataRuntimeData, BMWVehicleRuntimeData
 from .entity import BMWCarDataEntity
 from .entity_descriptions import BMWSensorDescription, SENSOR_DESCRIPTIONS
 
 
 def _coordinator_for_source(
-    runtime_data: BMWCarDataRuntimeData, source: str
+    runtime_data: BMWVehicleRuntimeData, source: str
 ) -> BMWApiCoordinator:
     if source == "telematics":
         return runtime_data.telematics_coordinator
@@ -29,7 +29,9 @@ async def async_setup_entry(
 ) -> None:
     runtime_data: BMWCarDataRuntimeData = entry.runtime_data
     async_add_entities(
-        BMWSensor(entry, runtime_data, description) for description in SENSOR_DESCRIPTIONS
+        BMWSensor(entry, vehicle_runtime, description)
+        for vehicle_runtime in runtime_data.vehicle_runtimes.values()
+        for description in SENSOR_DESCRIPTIONS
     )
 
 
@@ -39,7 +41,7 @@ class BMWSensor(BMWCarDataEntity, SensorEntity):
     def __init__(
         self,
         entry: ConfigEntry,
-        runtime_data: BMWCarDataRuntimeData,
+        runtime_data: BMWVehicleRuntimeData,
         description: BMWSensorDescription,
     ) -> None:
         coordinator = _coordinator_for_source(runtime_data, description.source)

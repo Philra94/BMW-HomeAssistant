@@ -108,14 +108,19 @@ return to Home Assistant to continue setup.
 After approval, the integration will:
 
 1. exchange the device code for tokens
-2. discover your mapped vehicle
-3. create or reuse a Home Assistant telematics container
-4. perform the initial sync
+2. discover your mapped vehicles
+3. let you choose one or more vehicles to include in Home Assistant
+4. create or reuse a Home Assistant telematics container
+5. perform the initial sync for each selected vehicle
 
 ## What The Integration Creates
 
 The integration uses one curated telematics container and combines it with a
 few dedicated BMW endpoints.
+
+One BMW CarData config entry can expose multiple BMW vehicles from the same
+BMW account. Each selected VIN appears in Home Assistant as a separate device
+with its own entities.
 
 Container-backed data:
 
@@ -156,6 +161,8 @@ Implications:
 - some values only update after the vehicle reports new data to BMW
 - some fields may stay `null` until the car is driving, charging, or otherwise
   generating new telemetry
+- adding more vehicles to one account entry increases total API usage and may
+  exhaust the shared daily budget sooner
 
 ## Known Limitations
 

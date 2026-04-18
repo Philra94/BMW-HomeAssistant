@@ -86,6 +86,17 @@ class BMWVehicleContext:
     enable_location: bool
 
 
+def normalize_selected_vins(
+    selected_vins: list[str] | tuple[str, ...] | set[str] | None,
+    legacy_selected_vin: str | None = None,
+) -> list[str]:
+    if selected_vins:
+        return [str(vin) for vin in selected_vins if vin]
+    if legacy_selected_vin:
+        return [str(legacy_selected_vin)]
+    return []
+
+
 @dataclass(slots=True)
 class BMWDeviceApprovalState:
     client_id: str

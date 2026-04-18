@@ -6,7 +6,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import LOCATION_LATITUDE_DESCRIPTOR, LOCATION_LONGITUDE_DESCRIPTOR
-from .coordinator import BMWCarDataRuntimeData
+from .coordinator import BMWCarDataRuntimeData, BMWVehicleRuntimeData
 from .entity import BMWCarDataEntity
 from .helpers import get_telematic_value, parse_float
 
@@ -17,15 +17,19 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     runtime_data: BMWCarDataRuntimeData = entry.runtime_data
-    if not runtime_data.vehicle_context.enable_location:
-        return
-    async_add_entities([BMWCarDataTracker(entry, runtime_data)])
+    async_add_entities(
+        [
+            BMWCarDataTracker(entry, vehicle_runtime)
+            for vehicle_runtime in runtime_data.vehicle_runtimes.values()
+            if vehicle_runtime.vehicle_context.enable_location
+        ]
+    )
 
 
 class BMWCarDataTracker(BMWCarDataEntity, TrackerEntity):
     _attr_name = "Location"
 
-    def __init__(self, entry: ConfigEntry, runtime_data: BMWCarDataRuntimeData) -> None:
+    def __init__(self, entry: ConfigEntry, runtime_data: BMWVehicleRuntimeData) -> None:
         super().__init__(entry, runtime_data, runtime_data.telematics_coordinator)
         self._attr_unique_id = f"{runtime_data.vehicle_context.vin}_location"
 

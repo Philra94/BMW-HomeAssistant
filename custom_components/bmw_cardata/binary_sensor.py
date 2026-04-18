@@ -5,7 +5,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .coordinator import BMWCarDataRuntimeData
+from .coordinator import BMWCarDataRuntimeData, BMWVehicleRuntimeData
 from .entity import BMWCarDataEntity
 from .entity_descriptions import BINARY_SENSOR_DESCRIPTIONS, BMWBinarySensorDescription
 
@@ -17,7 +17,8 @@ async def async_setup_entry(
 ) -> None:
     runtime_data: BMWCarDataRuntimeData = entry.runtime_data
     async_add_entities(
-        BMWBinarySensor(entry, runtime_data, description)
+        BMWBinarySensor(entry, vehicle_runtime, description)
+        for vehicle_runtime in runtime_data.vehicle_runtimes.values()
         for description in BINARY_SENSOR_DESCRIPTIONS
     )
 
@@ -28,7 +29,7 @@ class BMWBinarySensor(BMWCarDataEntity, BinarySensorEntity):
     def __init__(
         self,
         entry: ConfigEntry,
-        runtime_data: BMWCarDataRuntimeData,
+        runtime_data: BMWVehicleRuntimeData,
         description: BMWBinarySensorDescription,
     ) -> None:
         super().__init__(entry, runtime_data, runtime_data.telematics_coordinator)

@@ -14,10 +14,10 @@
         "description": "Open {verification_url} in your browser, enter the code {user_code}, approve the BMW device, then return here and submit again."
       },
       "select_vehicle": {
-        "title": "Select Vehicle",
-        "description": "Choose which mapped BMW vehicle this entry should represent.",
+        "title": "Select Vehicles",
+        "description": "Choose which mapped BMW vehicles this account entry should represent.",
         "data": {
-          "selected_vin": "Vehicle"
+          "selected_vins": "Vehicles"
         }
       },
       "reauth_confirm": {
@@ -29,11 +29,12 @@
       "authorization_pending": "Approve the BMW device code in the browser, then submit again.",
       "cannot_connect": "Could not reach the BMW CarData API.",
       "invalid_auth": "BMW rejected the credentials or device authorization.",
+      "no_vehicles_selected": "Select at least one BMW vehicle.",
       "rate_limited": "BMW rate limit reached. Try again later.",
       "unknown": "Unexpected error."
     },
     "abort": {
-      "already_configured": "This BMW vehicle is already configured.",
+      "already_configured": "This BMW CarData account is already configured.",
       "cannot_connect": "Could not complete the BMW setup flow.",
       "reauth_successful": "BMW CarData has been reconnected."
     }

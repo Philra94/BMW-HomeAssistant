@@ -16,6 +16,7 @@ CONF_CLIENT_ID = "client_id"
 CONF_VIN = "vin"
 CONF_ENABLE_LOCATION = "enable_location"
 CONF_SELECTED_VIN = "selected_vin"
+CONF_SELECTED_VINS = "selected_vins"
 CONF_CONTAINER_ID = "container_id"
 CONF_CONTAINER_NAME = "container_name"
 CONF_CONTAINER_PURPOSE = "container_purpose"
@@ -93,7 +94,7 @@ DEFAULT_REQUEST_RESERVE = 5
 
 SERVICE_REFRESH = "refresh_vehicle_data"
 
-STORAGE_VERSION = 1
+STORAGE_VERSION = 2
 REQUEST_BUDGET_STORAGE_KEY = f"{DOMAIN}_request_budget"
 
 LOCATION_LATITUDE_DESCRIPTOR = (

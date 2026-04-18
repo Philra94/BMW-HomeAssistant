@@ -5,8 +5,8 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, ConfigFlow
-from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers import config_validation as cv
 
 from .api import BMWCarDataApiClient
 from .auth import BMWAuthenticator
@@ -17,17 +17,18 @@ from .const import (
     CONF_CONTAINER_NAME,
     CONF_ENABLE_LOCATION,
     CONF_SELECTED_VIN,
+    CONF_SELECTED_VINS,
     CONF_TOKEN_SET,
     DEFAULT_CONTAINER_NAME,
     DEFAULT_CONTAINER_PURPOSE,
     DOMAIN,
 )
 from .exceptions import BMWAuthError, BMWAuthPendingError, BMWCarDataError, BMWRateLimitError
-from .models import BMWDeviceApprovalState, BMWTokenSet
+from .models import BMWDeviceApprovalState, BMWTokenSet, normalize_selected_vins
 
 
 class BMWCarDataConfigFlow(ConfigFlow, domain=DOMAIN):
-    VERSION = 1
+    VERSION = 2
 
     def __init__(self) -> None:
         self._client_id: str | None = None
@@ -100,17 +101,18 @@ class BMWCarDataConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ):
         if user_input is not None:
-            return await self._async_create_or_update_entry(user_input[CONF_SELECTED_VIN])
+            selected_vins = self._ordered_selected_vins(user_input.get(CONF_SELECTED_VINS))
+            if selected_vins:
+                return await self._async_create_or_update_entry(selected_vins)
+            return self.async_show_form(
+                step_id="select_vehicle",
+                data_schema=self._vehicle_selection_schema(),
+                errors={"base": "no_vehicles_selected"},
+            )
 
-        options = {
-            mapping["vin"]: f"{mapping['vin']} ({mapping.get('mappingType', 'UNKNOWN')})"
-            for mapping in self._mappings
-        }
         return self.async_show_form(
             step_id="select_vehicle",
-            data_schema=vol.Schema(
-                {vol.Required(CONF_SELECTED_VIN): vol.In(options)}
-            ),
+            data_schema=self._vehicle_selection_schema(),
         )
 
     async def async_step_reauth(self, entry_data: dict[str, Any]):
@@ -179,43 +181,100 @@ class BMWCarDataConfigFlow(ConfigFlow, domain=DOMAIN):
             return self.async_abort(reason="cannot_connect")
 
         if self._reauth_entry is not None:
+            selected_vins = normalize_selected_vins(
+                self._reauth_entry.data.get(CONF_SELECTED_VINS),
+                self._reauth_entry.data.get(CONF_SELECTED_VIN),
+            )
             return await self._async_create_or_update_entry(
-                self._reauth_entry.data.get(CONF_SELECTED_VIN, self._mappings[0]["vin"])
+                self._ordered_selected_vins(selected_vins or [self._mappings[0]["vin"]])
             )
 
         if len(self._mappings) > 1:
             return await self.async_step_select_vehicle()
 
-        return await self._async_create_or_update_entry(self._mappings[0]["vin"])
+        return await self._async_create_or_update_entry([self._mappings[0]["vin"]])
 
-    async def _async_create_or_update_entry(self, selected_vin: str):
+    def _mapped_vin_options(self) -> dict[str, str]:
+        return {
+            str(mapping["vin"]): (
+                f"{mapping['vin']} ({mapping.get('mappingType', 'UNKNOWN')})"
+            )
+            for mapping in self._mappings
+            if mapping.get("vin")
+        }
+
+    def _ordered_selected_vins(self, selected_vins: Any) -> list[str]:
+        normalized = normalize_selected_vins(selected_vins)
+        if not normalized:
+            return []
+        selected_set = {str(vin) for vin in normalized}
+        return [
+            str(mapping["vin"])
+            for mapping in self._mappings
+            if str(mapping.get("vin")) in selected_set
+        ]
+
+    def _vehicle_selection_schema(self) -> vol.Schema:
+        options = self._mapped_vin_options()
+        default_vins = list(options)
+        return vol.Schema(
+            {
+                vol.Required(
+                    CONF_SELECTED_VINS,
+                    default=default_vins,
+                ): cv.multi_select(options)
+            }
+        )
+
+    async def _async_create_or_update_entry(self, selected_vins: list[str]):
+        selected_vins = self._ordered_selected_vins(selected_vins)
+        if not selected_vins:
+            return self.async_abort(reason="cannot_connect")
+
         session = async_get_clientsession(self.hass)
         authenticator = BMWAuthenticator(session, self._client_id or "")
-        budget = RequestBudgetManager(self.hass, self._client_id or selected_vin)
+        budget = RequestBudgetManager(self.hass, self._client_id or "account")
         api = BMWCarDataApiClient(
             session,
             authenticator,
             self._token_set or BMWTokenSet("", "", "Bearer", "", 0, ""),
             budget_manager=budget,
         )
-        vehicle_context = await api.async_bootstrap_vehicle_context(
-            selected_vin=selected_vin,
-            enable_location=self._enable_location,
-            container_name=DEFAULT_CONTAINER_NAME,
-            container_purpose=DEFAULT_CONTAINER_PURPOSE,
-        )
-        basic_data = await api.async_get_basic_data(selected_vin)
-        title = basic_data.get("modelName") or f"BMW {selected_vin[-4:]}"
+
+        first_vehicle_context = None
+        container_id: str | None = None
+        container_name = DEFAULT_CONTAINER_NAME
+
+        for vin in selected_vins:
+            vehicle_context = await api.async_bootstrap_vehicle_context(
+                selected_vin=vin,
+                enable_location=self._enable_location,
+                existing_container_id=container_id,
+                container_name=container_name,
+                container_purpose=DEFAULT_CONTAINER_PURPOSE,
+            )
+            if first_vehicle_context is None:
+                first_vehicle_context = vehicle_context
+            container_id = vehicle_context.container_id
+            container_name = vehicle_context.container_name
+
+        if first_vehicle_context is None:
+            return self.async_abort(reason="cannot_connect")
+
+        basic_data = await api.async_get_basic_data(first_vehicle_context.vin)
+        title = basic_data.get("modelName") or f"BMW {first_vehicle_context.vin[-4:]}"
+        if len(selected_vins) > 1:
+            title = f"BMW CarData ({len(selected_vins)} vehicles)"
 
         data = {
             CONF_CLIENT_ID: self._client_id,
             CONF_ENABLE_LOCATION: self._enable_location,
-            CONF_SELECTED_VIN: vehicle_context.vin,
-            CONF_CONTAINER_ID: vehicle_context.container_id,
-            CONF_CONTAINER_NAME: vehicle_context.container_name,
+            CONF_SELECTED_VINS: selected_vins,
+            CONF_CONTAINER_ID: container_id,
+            CONF_CONTAINER_NAME: container_name,
             CONF_TOKEN_SET: (self._token_set or api.token_set).to_dict(),
         }
-        unique_id = f"{self._client_id}:{vehicle_context.vin}"
+        unique_id = self._client_id or ""
         await self.async_set_unique_id(unique_id)
 
         if self._reauth_entry is not None:
