@@ -38,5 +38,20 @@
       "cannot_connect": "Could not complete the BMW setup flow.",
       "reauth_successful": "BMW CarData has been reconnected."
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "BMW CarData Polling Options",
+        "description": "Adjust how often the integration queries BMW servers. Adaptive polling helps stay within BMW's daily request limit.",
+        "data": {
+          "adaptive_polling": "Enable adaptive polling",
+          "charging_interval": "Charging state refresh interval (minutes)",
+          "night_mode_enabled": "Enable night mode",
+          "night_start": "Night mode start time (HH:MM)",
+          "night_end": "Night mode end time (HH:MM)"
+        }
+      }
+    }
   }
 }

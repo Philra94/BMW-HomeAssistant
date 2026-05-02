@@ -4,7 +4,7 @@ from typing import Any
 
 import voluptuous as vol
 
-from homeassistant.config_entries import ConfigEntry, ConfigFlow
+from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers import config_validation as cv
 
@@ -13,15 +13,25 @@ from .auth import BMWAuthenticator
 from .budget import RequestBudgetManager
 from .const import (
     CONFIG_ENTRY_VERSION,
+    CONF_ADAPTIVE_POLLING,
+    CONF_CHARGING_INTERVAL,
     CONF_CLIENT_ID,
     CONF_CONTAINER_ID,
     CONF_CONTAINER_NAME,
     CONF_ENABLE_LOCATION,
+    CONF_NIGHT_END,
+    CONF_NIGHT_MODE_ENABLED,
+    CONF_NIGHT_START,
     CONF_SELECTED_VIN,
     CONF_SELECTED_VINS,
     CONF_TOKEN_SET,
+    DEFAULT_ADAPTIVE_POLLING,
+    DEFAULT_CHARGING_INTERVAL,
     DEFAULT_CONTAINER_NAME,
     DEFAULT_CONTAINER_PURPOSE,
+    DEFAULT_NIGHT_END,
+    DEFAULT_NIGHT_MODE_ENABLED,
+    DEFAULT_NIGHT_START,
     DOMAIN,
 )
 from .exceptions import BMWAuthError, BMWAuthPendingError, BMWCarDataError, BMWRateLimitError
@@ -38,6 +48,10 @@ class BMWCarDataConfigFlow(ConfigFlow, domain=DOMAIN):
         self._token_set: BMWTokenSet | None = None
         self._mappings: list[dict[str, Any]] = []
         self._reauth_entry: ConfigEntry | None = None
+
+    @staticmethod
+    def async_get_options_flow(config_entry: ConfigEntry) -> OptionsFlow:
+        return BMWCarDataOptionsFlow(config_entry)
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None):
         errors: dict[str, str] = {}
@@ -287,3 +301,41 @@ class BMWCarDataConfigFlow(ConfigFlow, domain=DOMAIN):
 
         self._abort_if_unique_id_configured()
         return self.async_create_entry(title=title, data=data)
+
+
+class BMWCarDataOptionsFlow(OptionsFlow):
+    def __init__(self, config_entry: ConfigEntry) -> None:
+        self._config_entry = config_entry
+
+    async def async_step_init(self, user_input: dict[str, Any] | None = None):
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        options = self._config_entry.options
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Optional(
+                        CONF_ADAPTIVE_POLLING,
+                        default=options.get(CONF_ADAPTIVE_POLLING, DEFAULT_ADAPTIVE_POLLING),
+                    ): bool,
+                    vol.Optional(
+                        CONF_CHARGING_INTERVAL,
+                        default=options.get(CONF_CHARGING_INTERVAL, DEFAULT_CHARGING_INTERVAL),
+                    ): vol.In([15, 30]),
+                    vol.Optional(
+                        CONF_NIGHT_MODE_ENABLED,
+                        default=options.get(CONF_NIGHT_MODE_ENABLED, DEFAULT_NIGHT_MODE_ENABLED),
+                    ): bool,
+                    vol.Optional(
+                        CONF_NIGHT_START,
+                        default=options.get(CONF_NIGHT_START, DEFAULT_NIGHT_START),
+                    ): str,
+                    vol.Optional(
+                        CONF_NIGHT_END,
+                        default=options.get(CONF_NIGHT_END, DEFAULT_NIGHT_END),
+                    ): str,
+                }
+            ),
+        )

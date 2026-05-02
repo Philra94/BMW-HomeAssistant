@@ -31,6 +31,7 @@ from .const import (
 )
 from .coordinator import BMWCarDataRuntimeData, async_build_runtime_data
 from .models import BMWTokenSet, normalize_selected_vins
+from .scheduler import BMWAccountScheduler
 
 SERVICE_SCHEMA = vol.Schema({vol.Optional(CONF_VIN): cv.string})
 
@@ -48,10 +49,10 @@ async def async_setup(hass: HomeAssistant, config: dict[str, Any]) -> bool:
                     continue
                 refreshes.extend(
                     [
-                        vehicle_runtime.telematics_coordinator.async_request_refresh(),
-                        vehicle_runtime.metadata_coordinator.async_request_refresh(),
-                        vehicle_runtime.history_coordinator.async_request_refresh(),
-                        vehicle_runtime.settings_coordinator.async_request_refresh(),
+                        vehicle_runtime.telematics_coordinator.force_next_refresh(),
+                        vehicle_runtime.metadata_coordinator.force_next_refresh(),
+                        vehicle_runtime.history_coordinator.force_next_refresh(),
+                        vehicle_runtime.settings_coordinator.force_next_refresh(),
                     ]
                 )
         if refreshes:
@@ -81,6 +82,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     session = async_get_clientsession(hass)
     authenticator = BMWAuthenticator(session, client_id)
     budget_manager = RequestBudgetManager(hass, client_id)
+    scheduler = BMWAccountScheduler(
+        budget_manager=budget_manager,
+        options=dict(entry.options),
+    )
     token_set = BMWTokenSet.from_dict(entry.data[CONF_TOKEN_SET])
     selected_vins = normalize_selected_vins(
         entry.data.get(CONF_SELECTED_VINS),
@@ -127,6 +132,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass,
         api=api,
         budget_manager=budget_manager,
+        scheduler=scheduler,
         vehicle_contexts=vehicle_contexts,
     )
 

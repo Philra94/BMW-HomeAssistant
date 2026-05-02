@@ -98,6 +98,31 @@ CONFIG_ENTRY_VERSION = 2
 STORAGE_VERSION = 1
 REQUEST_BUDGET_STORAGE_KEY = f"{DOMAIN}_request_budget"
 
+# Coordinator types
+COORDINATOR_TYPE_TELEMATICS = "telematics"
+COORDINATOR_TYPE_METADATA = "metadata"
+COORDINATOR_TYPE_HISTORY = "history"
+COORDINATOR_TYPE_SETTINGS = "settings"
+
+# Scheduler options
+CONF_ADAPTIVE_POLLING = "adaptive_polling"
+CONF_CHARGING_INTERVAL = "charging_interval"
+CONF_NIGHT_MODE_ENABLED = "night_mode_enabled"
+CONF_NIGHT_START = "night_start"
+CONF_NIGHT_END = "night_end"
+
+# Default scheduler settings
+DEFAULT_ADAPTIVE_POLLING = True
+DEFAULT_CHARGING_INTERVAL = 30  # minutes
+DEFAULT_NIGHT_MODE_ENABLED = True
+DEFAULT_NIGHT_START = "21:00"
+DEFAULT_NIGHT_END = "06:00"
+
+# Charging status values
+CHARGING_STATUS_CHARGING = "CHARGING"
+CHARGING_STATUS_FAST_CHARGING = "FASTCHARGING"
+CHARGING_STATUS_PLUGGED_IN = "PLUGGED_IN"
+
 LOCATION_LATITUDE_DESCRIPTOR = (
     "vehicle.cabin.infotainment.navigation.currentLocation.latitude"
 )

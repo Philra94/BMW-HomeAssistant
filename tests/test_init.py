@@ -172,6 +172,7 @@ async def test_sensor_setup_entry_creates_entities_for_each_vehicle(hass) -> Non
     runtime_data = BMWCarDataRuntimeData(
         api=object(),
         budget_manager=object(),
+        scheduler=object(),
         vehicle_runtimes={"VIN1": vehicle_one, "VIN2": vehicle_two},
     )
     entry = SimpleNamespace(runtime_data=runtime_data)
